@@ -1,10 +1,14 @@
 using anime_site.Endpoints;
+using anime_site.Extansions;
+using AnimeSite.Application.ApplicationExtensions;
 using AnimeSite.Application.Services;
 using AnimeSite.Core.Abstractions;
 using AnimeSite.DataAccess;
+using AnimeSite.DataAccess.Extensions;
 using AnimeSite.DataAccess.Mapping;
 using AnimeSite.DataAccess.Repositories;
 using AnimeSite.Infrastructure;
+using AnimeSite.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,21 +20,13 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(J
 builder.Services.AddAuthentication();
 
 builder.Services.AddCors();
-
+builder.Services
+    .AddDataAccessExtensions(builder.Configuration)
+    .AddApplication()
+    .AddInfrastructure();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
-
-builder.Services.AddDbContext<UserDbContext>(
-    options =>
-    {
-        options.UseNpgsql(builder.Configuration.GetConnectionString("AnimeSiteDbContext"));
-    });
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-builder.Services.AddScoped<IPasswordHash, PasswordHash>();
 
 
 var app = builder.Build();
@@ -42,7 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapUsersEndpoints();
+app.AddMapEndpoints();
 app.UseHttpsRedirection();
 
 app.UseCors(x =>
@@ -52,5 +48,5 @@ app.UseCors(x =>
     x.WithMethods().AllowAnyMethod();
     x.AllowCredentials();
 });
-app.Run();
 
+app.Run();

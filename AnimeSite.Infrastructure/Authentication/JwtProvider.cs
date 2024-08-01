@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Text;
 using AnimeSite.Core.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,7 +17,7 @@ public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
         Claim[] claims =
         [
             new (CustomClaims.UserId, user.Id.ToString()),
-            new ("Admin", "true")
+            new ("Admin", "false")
         ];
 
         var signingCredentials = new SigningCredentials(
