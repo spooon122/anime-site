@@ -1,23 +1,24 @@
 using anime_site.Endpoints;
 using anime_site.Extansions;
-using AnimeSite.Application.ApplicationExtensions;
+using AnimeSite.Application;
 using AnimeSite.Application.Services;
 using AnimeSite.Core.Abstractions;
 using AnimeSite.DataAccess;
-using AnimeSite.DataAccess.Extensions;
 using AnimeSite.DataAccess.Mapping;
 using AnimeSite.DataAccess.Repositories;
 using AnimeSite.Infrastructure;
 using AnimeSite.Infrastructure.Extensions;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
 builder.Services.AddAuthentication();
+
 
 builder.Services.AddCors();
 builder.Services
@@ -41,6 +42,13 @@ if (app.Environment.IsDevelopment())
 app.AddMapEndpoints();
 app.UseHttpsRedirection();
 
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+});
+
 app.UseCors(x =>
 {
     x.WithHeaders().AllowAnyHeader();
@@ -48,5 +56,8 @@ app.UseCors(x =>
     x.WithMethods().AllowAnyMethod();
     x.AllowCredentials();
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

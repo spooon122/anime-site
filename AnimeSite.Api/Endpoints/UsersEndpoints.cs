@@ -25,9 +25,11 @@ public static class UsersEndpoints
     }
     private static async Task<IResult> Login(
         LoginUserRequest loginUserRequest,
-        UserService userService)
+        UserService userService,
+        HttpContext context)
     {
         var token = await userService.Login(loginUserRequest.Email, loginUserRequest.Password);
-        return Results.Ok(token);
+        context.Response.Cookies.Append("cookies", token);
+        return Results.Ok();
     }
 }

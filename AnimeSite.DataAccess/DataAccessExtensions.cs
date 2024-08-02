@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AnimeSite.DataAccess.Extensions;
+namespace AnimeSite.DataAccess;
 
 public static class DataAccessExtensions
 {
@@ -15,9 +15,15 @@ public static class DataAccessExtensions
             {
                 options.UseNpgsql(configuration.GetConnectionString("AnimeSiteDbContext"));
             });
+        services.AddDbContext<AnimeDbContext>(
+            options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("AnimeSiteDbContext"));
+            });
         
+        services.AddScoped<IAnimeRepository, AnimeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-
+        
         return services;
     }
 }

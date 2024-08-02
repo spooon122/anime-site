@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AnimeSite.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3aca0af7ccbe32dea8c155008a727fb70d485669")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb4ae25c75f6c2bfba95d6b3c6aba133331d8e3e")]
 [assembly: System.Reflection.AssemblyProductAttribute("AnimeSite.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AnimeSite.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
