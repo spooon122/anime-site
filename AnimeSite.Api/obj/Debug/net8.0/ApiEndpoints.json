@@ -1,0 +1,46 @@
+[
+  {
+    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CUserEndpoints\u003Eb__0_0",
+    "RelativePath": "auth/login",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginUserRequest",
+        "Type": "anime_site.Users.LoginUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CUserEndpoints\u003Eb__0_1",
+    "RelativePath": "auth/register",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "anime_site.Users.RegisterUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

@@ -1,15 +1,14 @@
 ﻿using AnimeSite.Core.Models;
-using AnimeSite.DataAccess.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnimeSite.DataAccess;
 
-public class UserDbContext(DbContextOptions<UserDbContext> options) : DbContext(options)
+public class UserDbContext : IdentityDbContext<User>
 {
-    public DbSet<UserEntity> Users { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public UserDbContext(DbContextOptions<UserDbContext> options) 
+        : base(options)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserDbContext).Assembly);
+
     }
 }

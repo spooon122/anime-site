@@ -3,6 +3,6 @@
 namespace anime_site.Users;
 
 public record RegisterUserRequest(
-    [Required] string Nickname,
-    [Required] string Password,
-    [Required] string Email);
+    [Required] string Username,
+    [Required] string Email,
+    [Required] string Password);
