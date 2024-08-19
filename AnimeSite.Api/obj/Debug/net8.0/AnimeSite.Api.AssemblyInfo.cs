@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("73c905cf-fecc-4094-835c-2ea3cb7e1a84")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("AnimeSite.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+38e39ab2c5ec66d88a69f3184f7f8938c926cb22")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71dd6523b14ba5e271c31940bec131d1572c5575")]
 [assembly: System.Reflection.AssemblyProductAttribute("AnimeSite.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AnimeSite.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
