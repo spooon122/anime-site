@@ -1,7 +1,29 @@
 [
   {
     "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CUserEndpoints\u003Eb__0_2",
+    "Method": "\u003CUserEndpoints\u003Eb__0_0",
+    "RelativePath": "auth/login",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginRequest",
+        "Type": "Microsoft.AspNetCore.Identity.Data.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CUserEndpoints\u003Eb__0_3",
     "RelativePath": "auth/logout",
     "HttpMethod": "POST",
     "IsController": false,
@@ -10,6 +32,28 @@
       {
         "Name": "empty",
         "Type": "System.Object",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CUserEndpoints\u003Eb__0_2",
+    "RelativePath": "auth/refresh",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "refreshTokenRequest",
+        "Type": "anime_site.Contracts.Users.RefreshTokenRequest",
         "IsRequired": true
       }
     ],
@@ -32,28 +76,6 @@
       {
         "Name": "model",
         "Type": "anime_site.Users.RegisterUserRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CUserEndpoints\u003Eb__0_0",
-    "RelativePath": "login",
-    "HttpMethod": "POST",
-    "IsController": false,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "loginRequest",
-        "Type": "Microsoft.AspNetCore.Identity.Data.LoginRequest",
         "IsRequired": true
       }
     ],

@@ -1,16 +1,12 @@
-﻿using anime_site.Users;
+﻿using anime_site.Contracts.Users;
+using anime_site.Users;
 using AnimeSite.Core.Models;
-using AnimeSite.DataAccess;
 using AnimeSite.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+
 
 namespace anime_site.Endpoints
 {
@@ -19,41 +15,6 @@ namespace anime_site.Endpoints
         public static void UserEndpoints(this WebApplication app)
         {
             var auth = app.MapGroup("auth");
-
-            //auth.MapPost("/login", async (LoginUserRequest loginUserRequest, UserManager<User> userManager, SignInManager<User> signInManager) =>
-            //{
-            //    if (string.IsNullOrEmpty(loginUserRequest.Email) || string.IsNullOrEmpty(loginUserRequest.Password))
-            //    {
-            //        return Results.BadRequest("Please provide both email and password.");
-            //    }
-
-            //    var userEmail = await userManager.FindByEmailAsync(loginUserRequest.Email);
-
-            //    if (userEmail == null)
-            //    {
-            //        return Results.BadRequest("Invalid email or password.");
-            //    }
-
-            //    var result = await signInManager.PasswordSignInAsync(userEmail, loginUserRequest.Password, loginUserRequest.RememberMe, lockoutOnFailure: false);
-
-
-            //    if (result.Succeeded)
-            //    {
-            //        return Results.Ok("User logged in successfully.");
-            //    }
-            //    else if (result.IsLockedOut)
-            //    {
-            //        return Results.BadRequest("User account locked out.");
-            //    }
-            //    else if (result.RequiresTwoFactor)
-            //    {
-            //        return Results.BadRequest("Requires two-factor authentication.");
-            //    }
-            //    else
-            //    {
-            //        return Results.BadRequest("Invalid login attempt.");
-            //    }
-            //});
 
             auth.MapPost("/login", async (HttpContext context, [FromBody] LoginRequest loginRequest,
                              UserManager<User> userManager,
@@ -68,7 +29,7 @@ namespace anime_site.Endpoints
                     return;
                 }
 
-                var result = await signInManager.PasswordSignInAsync(user, loginRequest.Password, false, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(user, loginRequest.Password, true, lockoutOnFailure: false);
                 if (!result.Succeeded)
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -79,10 +40,18 @@ namespace anime_site.Endpoints
                 
                 var accessToken = jwtTokenService.GenerateAccessToken(user);
                 
-                var refreshToken = jwtTokenService.GenerateRefreshToken();
+                var refreshToken = jwtTokenService.GenerateAccessToken(user);
+
+                context.Response.Cookies.Append("RefreshToken", refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict, 
+                    Expires = DateTime.UtcNow.AddDays(7) 
+                });
                 var response = new
                 {
-                    Id = user.Id,
+                    user.Id,
                     Username = user.UserName,
                     AccessToken = accessToken,
                 };
@@ -91,7 +60,6 @@ namespace anime_site.Endpoints
                 await context.Response.WriteAsJsonAsync(response);
             });
             
-
 
             auth.MapPost("/registration", async (RegisterUserRequest model, UserManager<User> userManager) =>
             {
@@ -125,6 +93,44 @@ namespace anime_site.Endpoints
                 }
             });
 
+
+            auth.MapPost("/refresh", async (HttpContext context,
+                                     [FromBody] RefreshTokenRequest refreshTokenRequest,
+                                     UserManager<User> userManager,
+                                     IJwtTokenService jwtTokenService) =>
+            {
+                var principal = jwtTokenService.GetPrincipalFromExpiredToken(refreshTokenRequest.RefreshToken);
+                if (principal == null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    await context.Response.WriteAsync("Invalid refresh token");
+                    return;
+                }
+
+                var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await userManager.FindByIdAsync(userId);
+               
+
+                var newAccessToken = jwtTokenService.GenerateAccessToken(user);
+                var newRefreshToken = jwtTokenService.GenerateRefreshToken(user);
+
+                context.Response.Cookies.Append("RefreshToken", newRefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddDays(7)
+                });
+
+                var response = new
+                {
+                    RefreshToken = newRefreshToken,
+                    AccessToken = newAccessToken
+                };
+
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsJsonAsync(response);
+            });
             auth.MapPost("/logout", async (SignInManager<User> signInManager, [FromBody] object empty) =>
             {
                 if (empty != null)
