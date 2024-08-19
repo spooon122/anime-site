@@ -1,19 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeSite.Api", "AnimeSite.Api\AnimeSite.Api.csproj", "{79E01E8A-28D1-48EE-840B-11372BB0132C}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeSite.Api", "AnimeSite.Api\AnimeSite.Api.csproj", "{79E01E8A-28D1-48EE-840B-11372BB0132C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeSite.Core", "AnimeSite.Core\AnimeSite.Core.csproj", "{92482AD9-D45C-43CA-8DBF-607D809434D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeSite.Core", "AnimeSite.Core\AnimeSite.Core.csproj", "{92482AD9-D45C-43CA-8DBF-607D809434D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeSite.DataAccess", "AnimeSite.DataAccess\AnimeSite.DataAccess.csproj", "{1B8585E0-3F7E-440F-A582-3C3B05CCBCF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeSite.DataAccess", "AnimeSite.DataAccess\AnimeSite.DataAccess.csproj", "{1B8585E0-3F7E-440F-A582-3C3B05CCBCF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{357C22A8-83D4-4832-8FA3-4E2F7D7D2659}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeSite.Application", "AnimeSite.Application\AnimeSite.Application.csproj", "{09009758-6F87-43F7-B668-9CF0B5FBE5A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeSite.Application", "AnimeSite.Application\AnimeSite.Application.csproj", "{09009758-6F87-43F7-B668-9CF0B5FBE5A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimeSite.Infrastructure", "AnimeSite.Infrastructure\AnimeSite.Infrastructure.csproj", "{1775E70B-32B6-41C1-8426-751A3FCB3AC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimeSite.Infrastructure", "AnimeSite.Infrastructure\AnimeSite.Infrastructure.csproj", "{1775E70B-32B6-41C1-8426-751A3FCB3AC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,5 +44,11 @@ Global
 		{1775E70B-32B6-41C1-8426-751A3FCB3AC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1775E70B-32B6-41C1-8426-751A3FCB3AC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1775E70B-32B6-41C1-8426-751A3FCB3AC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD1B271B-76FA-4972-B95F-9CED04678498}
 	EndGlobalSection
 EndGlobal

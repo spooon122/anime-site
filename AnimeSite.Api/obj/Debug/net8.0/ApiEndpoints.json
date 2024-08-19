@@ -1,15 +1,15 @@
 [
   {
     "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CUserEndpoints\u003Eb__0_0",
-    "RelativePath": "auth/login",
+    "Method": "\u003CUserEndpoints\u003Eb__0_2",
+    "RelativePath": "auth/logout",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "loginUserRequest",
-        "Type": "anime_site.Users.LoginUserRequest",
+        "Name": "empty",
+        "Type": "System.Object",
         "IsRequired": true
       }
     ],
@@ -24,7 +24,7 @@
   {
     "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CUserEndpoints\u003Eb__0_1",
-    "RelativePath": "auth/register",
+    "RelativePath": "auth/registration",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
@@ -32,6 +32,28 @@
       {
         "Name": "model",
         "Type": "anime_site.Users.RegisterUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CUserEndpoints\u003Eb__0_0",
+    "RelativePath": "login",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginRequest",
+        "Type": "Microsoft.AspNetCore.Identity.Data.LoginRequest",
         "IsRequired": true
       }
     ],

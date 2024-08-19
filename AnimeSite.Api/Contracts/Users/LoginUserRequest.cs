@@ -2,7 +2,9 @@
 
 namespace anime_site.Users;
 
-public record LoginUserRequest(
-    [Required] string UserName,
-    [Required] string Password,
-    [Required] bool RememberMe);
+public class LoginUserRequest
+{
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public bool RememberMe { get; set; }
+}
