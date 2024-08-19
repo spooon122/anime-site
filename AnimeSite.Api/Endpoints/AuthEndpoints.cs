@@ -1,5 +1,4 @@
-﻿using anime_site.Contracts.Users;
-using anime_site.Users;
+﻿using anime_site.Dto;
 using AnimeSite.Core.Models;
 using AnimeSite.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -61,15 +60,15 @@ namespace anime_site.Endpoints
             });
             
 
-            auth.MapPost("/registration", async (RegisterUserRequest model, UserManager<User> userManager) =>
+            auth.MapPost("/registration", async (RegisterUserDto registerUserDto, UserManager<User> userManager) =>
             {
-                // Валидация модели регистрации
-                if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+                
+                if (string.IsNullOrEmpty(registerUserDto.Username) || string.IsNullOrEmpty(registerUserDto.Email) || string.IsNullOrEmpty(registerUserDto.Password))
                 {
                     return Results.BadRequest("Please provide all required fields.");
                 }
-                // Проверка, существует ли пользователь
-                var existingUser = await userManager.FindByNameAsync(model.Email);
+                
+                var existingUser = await userManager.FindByNameAsync(registerUserDto.Email);
                 if (existingUser != null)
                 {
                     return Results.BadRequest("Username is already taken.");
@@ -77,12 +76,12 @@ namespace anime_site.Endpoints
 
                 var user = new User
                 {
-                    UserName = model.Username,
-                    Email = model.Email
+                    UserName = registerUserDto.Username,
+                    Email = registerUserDto.Email
                 };
 
-                // Создание пользователя
-                var result = await userManager.CreateAsync(user, model.Password);
+                
+                var result = await userManager.CreateAsync(user, registerUserDto.Password);
                 if (result.Succeeded)
                 {
                     return Results.Ok("User registered successfully.");
@@ -95,11 +94,13 @@ namespace anime_site.Endpoints
 
 
             auth.MapPost("/refresh", async (HttpContext context,
-                                     [FromBody] RefreshTokenRequest refreshTokenRequest,
+                                     [FromBody] RefreshRequest refreshRequest,
                                      UserManager<User> userManager,
                                      IJwtTokenService jwtTokenService) =>
             {
-                var principal = jwtTokenService.GetPrincipalFromExpiredToken(refreshTokenRequest.RefreshToken);
+
+                var principal = jwtTokenService.GetPrincipalFromExpiredToken(refreshRequest.RefreshToken);
+                
                 if (principal == null)
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -109,10 +110,10 @@ namespace anime_site.Endpoints
 
                 var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = await userManager.FindByIdAsync(userId);
-               
+
 
                 var newAccessToken = jwtTokenService.GenerateAccessToken(user);
-                var newRefreshToken = jwtTokenService.GenerateRefreshToken(user);
+                var newRefreshToken = refreshRequest.RefreshToken;
 
                 context.Response.Cookies.Append("RefreshToken", newRefreshToken, new CookieOptions
                 {

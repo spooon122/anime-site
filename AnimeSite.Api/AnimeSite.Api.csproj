@@ -39,6 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Contracts\Users\" />
       <Folder Include="Controllers\" />
     </ItemGroup>
 

@@ -52,8 +52,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "refreshTokenRequest",
-        "Type": "anime_site.Contracts.Users.RefreshTokenRequest",
+        "Name": "refreshRequest",
+        "Type": "Microsoft.AspNetCore.Identity.Data.RefreshRequest",
         "IsRequired": true
       }
     ],
@@ -74,8 +74,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "anime_site.Users.RegisterUserRequest",
+        "Name": "registerUserDto",
+        "Type": "anime_site.Dto.RegisterUserDto",
         "IsRequired": true
       }
     ],

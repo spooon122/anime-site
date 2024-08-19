@@ -32,7 +32,6 @@ namespace AnimeSite.Infrastructure.Authentication
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.NameIdentifier, user.Id)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(15),
@@ -42,19 +41,14 @@ namespace AnimeSite.Infrastructure.Authentication
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        public string GenerateRefreshToken(User user)
+        public string GenerateRefreshToken()
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("your_32_character_secret_key_12345");
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
             {
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
         }
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
@@ -64,8 +58,8 @@ namespace AnimeSite.Infrastructure.Authentication
                 ValidateIssuer = false,   
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345")),
-                ValidateLifetime = false, 
-                ClockSkew = TimeSpan.Zero
+                ValidateLifetime = false,
+
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
