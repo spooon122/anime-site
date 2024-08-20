@@ -31,6 +31,9 @@
             "projectReferences": {
               "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Core\\AnimeSite.Core.csproj": {
                 "projectPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Core\\AnimeSite.Core.csproj"
+              },
+              "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj"
               }
             }
           }

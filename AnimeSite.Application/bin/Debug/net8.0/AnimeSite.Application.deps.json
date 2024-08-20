@@ -9,6 +9,7 @@
       "AnimeSite.Application/1.0.0": {
         "dependencies": {
           "AnimeSite.Core": "1.0.0",
+          "AnimeSite.DataAccess": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.8",
           "Microsoft.EntityFrameworkCore": "8.0.8",
           "Microsoft.EntityFrameworkCore.Design": "8.0.8",
@@ -634,6 +635,21 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "AnimeSite.DataAccess/1.0.0": {
+        "dependencies": {
+          "AnimeSite.Core": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.8",
+          "Microsoft.Extensions.Identity.Core": "8.0.8",
+          "Npgsql": "8.0.3",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4"
+        },
+        "runtime": {
+          "AnimeSite.DataAccess.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -966,6 +982,11 @@
       "hashPath": "system.threading.channels.6.0.0.nupkg.sha512"
     },
     "AnimeSite.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AnimeSite.DataAccess/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -971,6 +971,23 @@
         "runtime": {
           "bin/placeholder/AnimeSite.Core.dll": {}
         }
+      },
+      "AnimeSite.DataAccess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AnimeSite.Core": "1.0.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.8",
+          "Microsoft.Extensions.Identity.Core": "8.0.8",
+          "Npgsql": "8.0.3",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4"
+        },
+        "compile": {
+          "bin/placeholder/AnimeSite.DataAccess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AnimeSite.DataAccess.dll": {}
+        }
       }
     }
   },
@@ -2483,11 +2500,17 @@
       "type": "project",
       "path": "../AnimeSite.Core/AnimeSite.Core.csproj",
       "msbuildProject": "../AnimeSite.Core/AnimeSite.Core.csproj"
+    },
+    "AnimeSite.DataAccess/1.0.0": {
+      "type": "project",
+      "path": "../AnimeSite.DataAccess/AnimeSite.DataAccess.csproj",
+      "msbuildProject": "../AnimeSite.DataAccess/AnimeSite.DataAccess.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "AnimeSite.Core >= 1.0.0",
+      "AnimeSite.DataAccess >= 1.0.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.8",
       "Microsoft.EntityFrameworkCore >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.8",
@@ -2527,6 +2550,9 @@
           "projectReferences": {
             "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Core\\AnimeSite.Core.csproj": {
               "projectPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Core\\AnimeSite.Core.csproj"
+            },
+            "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj"
             }
           }
         }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnimeSite.DataAccess.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20240817205832_init")]
+    [Migration("20240820131222_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -76,15 +76,6 @@ namespace AnimeSite.DataAccess.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<string>("email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("password")
-                        .HasColumnType("text");
-
-                    b.Property<string>("userName")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

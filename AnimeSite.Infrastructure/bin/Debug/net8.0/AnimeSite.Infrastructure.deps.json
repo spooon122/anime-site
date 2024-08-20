@@ -658,6 +658,7 @@
       "AnimeSite.Application/1.0.0": {
         "dependencies": {
           "AnimeSite.Core": "1.0.0",
+          "AnimeSite.DataAccess": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.8",
           "Microsoft.EntityFrameworkCore": "8.0.8",
           "Microsoft.Extensions.Identity.Core": "8.0.8",

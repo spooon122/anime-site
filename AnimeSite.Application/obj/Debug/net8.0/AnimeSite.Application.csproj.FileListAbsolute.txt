@@ -16,3 +16,5 @@ C:\Users\spoon\RiderProjects\anime-site\AnimeSite.Application\obj\Debug\net8.0\A
 C:\Users\spoon\RiderProjects\anime-site\AnimeSite.Application\obj\Debug\net8.0\ref\AnimeSite.Application.dll
 C:\Users\spoon\RiderProjects\anime-site\AnimeSite.Application\bin\Debug\net8.0\AnimeSite.Application.runtimeconfig.json
 C:\Users\spoon\RiderProjects\anime-site\AnimeSite.Application\obj\Debug\net8.0\AnimeSite.Application.genruntimeconfig.cache
+C:\Users\spoon\RiderProjects\anime-site\AnimeSite.Application\bin\Debug\net8.0\AnimeSite.DataAccess.dll
+C:\Users\spoon\RiderProjects\anime-site\AnimeSite.Application\bin\Debug\net8.0\AnimeSite.DataAccess.pdb
