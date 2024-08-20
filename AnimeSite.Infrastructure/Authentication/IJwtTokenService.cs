@@ -5,7 +5,7 @@ namespace AnimeSite.Infrastructure.Authentication
 {
     public interface IJwtTokenService
     {
-        Task<string> GenerateAccessToken(User user);
+        string GenerateAccessToken(User user);
         string GenerateRefreshToken();
         ClaimsPrincipal GetPrincipalFromExpiredToken(string? token);
     }

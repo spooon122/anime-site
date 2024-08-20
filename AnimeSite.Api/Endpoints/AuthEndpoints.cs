@@ -27,12 +27,12 @@ namespace anime_site.Endpoints
 
             var auth = app.MapGroup("auth");
 
-            auth.MapPost("/login", async (HttpContext context, [FromBody] LoginRequest loginRequest,
+            auth.MapPost("/login", async (HttpContext context, [FromBody] LoginRequestDto loginRequest,
                              UserManager<User> userManager,
                              SignInManager<User> signInManager,
                              IJwtTokenService jwtTokenService) =>
             {
-                var user = await userManager.FindByEmailAsync(loginRequest.Email);
+                var user = await userManager.FindByEmailAsync(loginRequest.Email!);
                 if (user == null)
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -40,7 +40,7 @@ namespace anime_site.Endpoints
                     return;
                 }
 
-                var result = await signInManager.PasswordSignInAsync(user, loginRequest.Password, true, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(user, loginRequest.Password!, loginRequest.RememberMe, lockoutOnFailure: false);
                 if (!result.Succeeded)
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -60,10 +60,9 @@ namespace anime_site.Endpoints
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddDays(14)
                 });
+
                 var response = new
                 {
-                    user.Id,
-                    Username = user.UserName,
                     AccessToken = accessToken,
                 };
 
@@ -92,7 +91,7 @@ namespace anime_site.Endpoints
             {
                 var refreshToken = context.Request.Cookies["RefreshToken"];
 
-                var accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3RyaW5nQG1haWwuY29tIiwianRpIjoiNmQ3NzIwZmQtMDI3Ny00MzVhLTgyYTUtOGIxYTI3NjU0MmQ3IiwiZXhwIjoxNzI0MTg1MjA0fQ.9Cv2WKuNLr9JKCaiXZhnjEtHhwEnyktEDDspSB4Ft_4";
+                var accessToken = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
                 var principal = jwtTokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity?.Name;
@@ -108,12 +107,11 @@ namespace anime_site.Endpoints
 
                 user.RefreshToken = newRefreshToken;
                 await userManager.UpdateAsync(user);
-
-                // Добавление нового refreshToken в cookies
+                
                 context.Response.Cookies.Append("RefreshToken", newRefreshToken, new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true, // Использовать только для HTTPS
+                    Secure = true,
                     SameSite = SameSiteMode.Strict
                 });
 

@@ -24,7 +24,7 @@ namespace AnimeSite.Infrastructure.Authentication
             _configuration = configuration;
         }
 
-        public async Task<string> GenerateAccessToken(User user)
+        public string GenerateAccessToken(User user)
         {
             var authClaims = new List<Claim>
         {
@@ -46,7 +46,7 @@ namespace AnimeSite.Infrastructure.Authentication
 
         public string GenerateRefreshToken()
         {
-            var randomNumber = new byte[64];
+            var randomNumber = new byte[32];
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(randomNumber);
@@ -59,7 +59,7 @@ namespace AnimeSite.Infrastructure.Authentication
             {
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = false, // ignore expiration for expired token
+                ValidateLifetime = false,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = "",
                 ValidAudience = "",

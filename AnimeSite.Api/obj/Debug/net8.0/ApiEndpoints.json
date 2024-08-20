@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "loginRequest",
-        "Type": "Microsoft.AspNetCore.Identity.Data.LoginRequest",
+        "Type": "anime_site.Dto.LoginRequestDto",
         "IsRequired": true
       }
     ],
