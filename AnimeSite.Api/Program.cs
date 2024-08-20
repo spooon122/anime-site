@@ -27,12 +27,12 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = false,
-        ValidateIssuerSigningKey = true,
+        ValidateIssuerSigningKey = false,
         ValidIssuer = "",
         ValidAudience = "",
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"))
     };
-});
+}).AddCookie();
 builder.Services.AddAuthorization();
 builder.Services.AddCors();
 

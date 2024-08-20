@@ -85,22 +85,22 @@ namespace anime_site.Endpoints
 
 
             auth.MapPost("/refresh", async (HttpContext context,
-                                     [FromBody] RefreshTokenRequest refreshTokenRequest,
                                      UserManager<User> userManager,
                                      IJwtTokenService jwtTokenService) =>
             {
                 var refreshToken = context.Request.Cookies["RefreshToken"];
 
-                var accessToken = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+                var accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoic3RyaW5nQG1haWwuY29tIiwianRpIjoiMzNiYmMzZGQtNzk4My00ZWM4LThiOTYtZjNlNmVlYWY2N2QyIiwiZXhwIjoxNzI0MTkzMzUzfQ.FVqeLaHlwy6epWFu-vgyEVG6HdSiT6aPGpRXtdOUxD0";
 
                 var principal = jwtTokenService.GetPrincipalFromExpiredToken(accessToken);
+                
                 var username = principal.Identity?.Name;
 
                 var user = await userManager.FindByNameAsync(username!);
-                if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-                {
-                    return Results.Unauthorized();
-                }
+                //if (user == null || user.RefreshTokenExpiryTime <= DateTime.Now)
+                //{
+                //    return Results.Unauthorized();
+                //}
 
                 var newAccessToken = jwtTokenService.GenerateAccessToken(user);
                 var newRefreshToken = jwtTokenService.GenerateRefreshToken();

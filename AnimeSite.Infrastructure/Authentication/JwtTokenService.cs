@@ -60,7 +60,7 @@ namespace AnimeSite.Infrastructure.Authentication
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = false,
-                ValidateIssuerSigningKey = true,
+                ValidateIssuerSigningKey = false,
                 ValidIssuer = "",
                 ValidAudience = "",
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"))

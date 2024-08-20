@@ -28,13 +28,7 @@
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "refreshTokenRequest",
-        "Type": "anime_site.Dto.RefreshTokenRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Void",
