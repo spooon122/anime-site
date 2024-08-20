@@ -3,20 +3,43 @@ using AnimeSite.Application.Services;
 using AnimeSite.Core.Interfaces;
 using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
+using AnimeSite.Infrastructure.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "",
+        ValidAudience = "",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"))
+    };
+});
 builder.Services.AddAuthorization();
 builder.Services.AddCors();
 
-builder.Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<UserDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<UserDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.Configure<IdentityOptions>(opt =>
 {
     opt.SignIn.RequireConfirmedEmail = false;
@@ -29,7 +52,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.Password.RequiredLength = 1;
 });
 builder.Services.AddScoped<IUserService, UserService>();
-
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 
 builder.Services.AddCors();
@@ -45,7 +68,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<User>();
 app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader());
 app.UserEndpoints();
 app.UseHttpsRedirection();

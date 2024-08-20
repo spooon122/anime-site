@@ -2501,11 +2501,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\spoon\\Source\\Repos\\anime-site1\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj",
       "projectName": "AnimeSite.DataAccess",
-      "projectPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj",
+      "projectPath": "C:\\Users\\spoon\\Source\\Repos\\anime-site1\\AnimeSite.DataAccess\\AnimeSite.DataAccess.csproj",
       "packagesPath": "C:\\Users\\spoon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.DataAccess\\obj\\",
+      "outputPath": "C:\\Users\\spoon\\Source\\Repos\\anime-site1\\AnimeSite.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\spoon\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -2523,8 +2523,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Core\\AnimeSite.Core.csproj": {
-              "projectPath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Core\\AnimeSite.Core.csproj"
+            "C:\\Users\\spoon\\Source\\Repos\\anime-site1\\AnimeSite.Core\\AnimeSite.Core.csproj": {
+              "projectPath": "C:\\Users\\spoon\\Source\\Repos\\anime-site1\\AnimeSite.Core\\AnimeSite.Core.csproj"
             }
           }
         }

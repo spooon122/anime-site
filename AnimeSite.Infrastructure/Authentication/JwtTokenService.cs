@@ -24,24 +24,26 @@ namespace AnimeSite.Infrastructure.Authentication
             _configuration = configuration;
         }
 
-        public string GenerateAccessToken(User user)
+        public async Task<string> GenerateAccessToken(User user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("your_32_character_secret_key_12345");
+            var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName!)
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"));
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var token = new JwtSecurityToken(
+                expires: DateTime.Now.AddMinutes(15),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[64];
@@ -55,19 +57,28 @@ namespace AnimeSite.Infrastructure.Authentication
         {
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false, 
-                ValidateIssuer = false,   
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false, // ignore expiration for expired token
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345")),
-                ValidateLifetime = false,
+                ValidIssuer = "",
+                ValidAudience = "",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"))
             };
 
-            return new JwtSecurityTokenHandler().ValidateToken(token, tokenValidationParameters, out _);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return principal;
         }
 
-       
 
-        
+
+
 
     }
 

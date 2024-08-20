@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZBr8Sby6ilo=",
+  "dgSpecHash": "aaCkujp9+QA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\spoon\\RiderProjects\\anime-site\\AnimeSite.Infrastructure\\AnimeSite.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\spoon\\Source\\Repos\\anime-site1\\AnimeSite.Infrastructure\\AnimeSite.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\spoon\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\spoon\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.8\\microsoft.aspnetcore.authentication.jwtbearer.8.0.8.nupkg.sha512",
