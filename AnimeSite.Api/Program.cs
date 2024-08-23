@@ -1,15 +1,21 @@
 using anime_site.Endpoints;
 using AnimeSite.Application.Services;
+using AnimeSite.Application.Validations;
 using AnimeSite.Core.Interfaces;
 using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
 using AnimeSite.Infrastructure.Authentication;
+using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,9 +36,10 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = false,
         ValidIssuer = "",
         ValidAudience = "",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt"]!))
     };
 }).AddCookie();
+
 builder.Services.AddAuthorization();
 builder.Services.AddCors();
 
@@ -53,8 +60,24 @@ builder.Services.Configure<IdentityOptions>(opt =>
 });
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddMailKit(optionBuilder =>
+{
+    optionBuilder.UseMailKit(new MailKitOptions()
+    {
+        //get options from sercets.json
+        Server = "smtp.gmail.com",
+        Port = 587,
+        SenderName = "",
+        SenderEmail = "animeq583@gmail.com",
 
-
+        // can be optional with no authentication 
+        Account = "animeq583@gmail.com",
+        Password = "",
+        // enable ssl or tls
+        Security = true
+    });
+});
+builder.Services.AddTransient<UniqueEmailAttribute>();
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AnimeSiteDbContext")));
@@ -68,8 +91,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader());
-app.UserEndpoints();
+app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+app.LoginEndpoints();
+app.RegisterUserEndpoints();
 app.UseHttpsRedirection();
 
 

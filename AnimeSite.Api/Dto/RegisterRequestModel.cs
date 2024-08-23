@@ -1,10 +1,15 @@
-﻿namespace anime_site.Dto
+﻿using AnimeSite.Application.Validations;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Xml;
+
+namespace anime_site.Dto
 {
     public class RegisterRequestModel
     {
-        public string Username { get; set; }
+        
+        public required string Username { get; set; }
         public string Email { get; set; }
-
-        public string Password { get; set; }
+        public required string Password { get; set; }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AnimeSite.Core.Interfaces;
 using AnimeSite.Core.Models;
-using AnimeSite.DataAccess;
 using Microsoft.AspNetCore.Identity;
 
 namespace AnimeSite.Application.Services

@@ -3,15 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace AnimeSite.Infrastructure.Authentication
 {
@@ -23,7 +18,7 @@ namespace AnimeSite.Infrastructure.Authentication
         {
             _configuration = configuration;
         }
-
+        /// Method for Generate Access Token
         public string GenerateAccessToken(User user)
         {
             var authClaims = new List<Claim>
@@ -32,7 +27,7 @@ namespace AnimeSite.Infrastructure.Authentication
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt"]!));
 
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddMinutes(15),
@@ -43,7 +38,9 @@ namespace AnimeSite.Infrastructure.Authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
+        /// <summary>
+        /// Method for Generate Refresh Token
+        /// </summary>
         public string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
@@ -53,6 +50,9 @@ namespace AnimeSite.Infrastructure.Authentication
             }
             return Convert.ToBase64String(randomNumber);
         }
+        /// <summary>
+        /// Method for GetPrincipal from token
+        /// </summary>
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string? token)
         {
             var tokenValidationParameters = new TokenValidationParameters
@@ -63,7 +63,7 @@ namespace AnimeSite.Infrastructure.Authentication
                 ValidateIssuerSigningKey = false,
                 ValidIssuer = "",
                 ValidAudience = "",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_32_character_secret_key_12345"))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt"]!))
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -75,11 +75,6 @@ namespace AnimeSite.Infrastructure.Authentication
 
             return principal;
         }
-
-
-
-
-
     }
 
 }
