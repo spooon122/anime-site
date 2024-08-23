@@ -67,17 +67,16 @@ builder.Services.AddMailKit(optionBuilder =>
         //get options from sercets.json
         Server = "smtp.gmail.com",
         Port = 587,
-        SenderName = "",
-        SenderEmail = "animeq583@gmail.com",
+        SenderName = "animeq",
+        SenderEmail = "",
 
         // can be optional with no authentication 
-        Account = "animeq583@gmail.com",
+        Account = "",
         Password = "",
         // enable ssl or tls
         Security = true
     });
 });
-builder.Services.AddTransient<UniqueEmailAttribute>();
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AnimeSiteDbContext")));

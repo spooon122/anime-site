@@ -67,7 +67,7 @@
   {
     "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CLoginEndpoints\u003Eb__0_1",
-    "RelativePath": "auth/registration",
+    "RelativePath": "auth/register",
     "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,

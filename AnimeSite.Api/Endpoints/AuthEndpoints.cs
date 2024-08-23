@@ -65,7 +65,7 @@ namespace anime_site.Endpoints
             });
 
              
-            auth.MapPost("/registration", async ([FromBody] RegisterRequestModel model, [FromServices] IEmailService emailSender, UserManager <User> userManager, HttpContext httpContext) =>
+            auth.MapPost("/register", async ([FromBody] RegisterRequestModel model, [FromServices] IEmailService emailSender, UserManager <User> userManager, HttpContext httpContext) =>
             {
 
                 var existingUser = await userManager.FindByEmailAsync(model.Email);
@@ -82,7 +82,7 @@ namespace anime_site.Endpoints
                 {
                     var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var callbackUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}/confirmemail?userId={user.Id}&code={Uri.EscapeDataString(code)}";
+                    var callbackUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}/auth/confirm?userId={user.Id}&code={Uri.EscapeDataString(code)}";
                     await emailSender.SendAsync(user.Email, "Send from animeq", callbackUrl);
 
                     return Results.Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
@@ -127,8 +127,9 @@ namespace anime_site.Endpoints
 
             auth.MapGet("confirm", async(string userId, string code, UserManager<User> userManager) =>
             {
-                var user = await userManager.FindByNameAsync(userId);
+                var user = await userManager.FindByIdAsync(userId);
                 await userManager.ConfirmEmailAsync(user!, code);
+                return Results.Redirect("/auth/login");
             });
         }
     }
