@@ -1,4 +1,4 @@
-﻿using AnimeSite.Application.Validations;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Xml;

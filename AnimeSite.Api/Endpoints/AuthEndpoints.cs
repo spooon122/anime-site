@@ -27,7 +27,9 @@ namespace anime_site.Endpoints
             /// Group for Auth endpoints
             /// </summary>
             var auth = app.MapGroup("auth");
-
+            /// <summary>
+            /// method for login user via Email and Pass
+            /// </summary>
             auth.MapPost("/login", async (HttpContext context, [FromBody] LoginRequestDto loginRequest,
                              UserManager<User> userManager,
                              SignInManager<User> signInManager,
@@ -64,7 +66,9 @@ namespace anime_site.Endpoints
                 return Results.Ok(response);
             });
 
-             
+            /// <summary>
+            /// method for registration and got confirm code for confirm user email
+            /// </summary>
             auth.MapPost("/register", async ([FromBody] RegisterRequestModel model, [FromServices] IEmailService emailSender, UserManager <User> userManager, HttpContext httpContext) =>
             {
 
@@ -95,7 +99,9 @@ namespace anime_site.Endpoints
                 
             });
 
-
+            /// <summary>
+            /// method for get access token from refresh token
+            /// </summary>
             auth.MapPost("/refresh", async (HttpContext context,
                                      UserManager<User> userManager,
                                      IJwtTokenService jwtTokenService) =>
@@ -124,7 +130,9 @@ namespace anime_site.Endpoints
                 
                 return Results.Ok(new { AccessToken = newAccessToken });
             });
-
+            /// <summary>
+            /// method for confirm user Email
+            /// </summary>
             auth.MapGet("confirm", async(string userId, string code, UserManager<User> userManager) =>
             {
                 var user = await userManager.FindByIdAsync(userId);

@@ -1,25 +1,16 @@
+using anime_site;
 using anime_site.Endpoints;
-using AnimeSite.Application.Services;
-using AnimeSite.Application.Validations;
-using AnimeSite.Core.Interfaces;
 using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
-using AnimeSite.Infrastructure.Authentication;
-using MailKit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NETCore.MailKit.Extensions;
-using NETCore.MailKit.Infrastructure.Internal;
 using System.Text;
-using static System.Net.WebRequestMethods;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(options =>
 {
@@ -42,12 +33,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddCors();
-
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<UserDbContext>()
-    .AddDefaultTokenProviders();
-
-builder.Services.Configure<IdentityOptions>(opt =>
+builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
     opt.SignIn.RequireConfirmedEmail = false;
     opt.SignIn.RequireConfirmedPhoneNumber = false;
@@ -57,33 +43,19 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
     opt.Password.RequiredLength = 1;
-});
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-builder.Services.AddMailKit(optionBuilder =>
-{
-    optionBuilder.UseMailKit(new MailKitOptions()
-    {
-        //get options from sercets.json
-        Server = "smtp.gmail.com",
-        Port = 587,
-        SenderName = "animeq",
-        SenderEmail = "",
+    opt.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+})
+                    .AddEntityFrameworkStores<UserDbContext>()
+                    .AddDefaultTokenProviders();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.TokenLifespan = TimeSpan.FromHours(2));
 
-        // can be optional with no authentication 
-        Account = "",
-        Password = "",
-        // enable ssl or tls
-        Security = true
-    });
-});
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AnimeSiteDbContext")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -94,6 +66,5 @@ app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMeth
 app.LoginEndpoints();
 app.RegisterUserEndpoints();
 app.UseHttpsRedirection();
-
 
 app.Run();

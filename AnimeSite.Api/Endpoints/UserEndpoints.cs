@@ -1,4 +1,5 @@
-﻿using AnimeSite.Core.Models;
+﻿using anime_site.Dto;
+using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.MailKit.Core;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace anime_site.Endpoints
 {
@@ -15,7 +17,7 @@ namespace anime_site.Endpoints
         public static void RegisterUserEndpoints(this WebApplication app) 
         {
 
-            var users = app.MapGroup("users").RequireAuthorization();
+            var users = app.MapGroup("users");
             /// <summary>
             /// method for loguot user
             /// </summary>
@@ -27,7 +29,7 @@ namespace anime_site.Endpoints
                     return Results.Ok();
                 }
                 return Results.Unauthorized();
-            });
+            }).RequireAuthorization();
             /// <summary>
             /// method for forgot password with confirmed Email
             /// </summary>
@@ -40,11 +42,29 @@ namespace anime_site.Endpoints
                 }
 
                 var code = await userManager.GeneratePasswordResetTokenAsync(user);
-                var callback = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}/users/forgot?userId={user.Id}&code={Uri.EscapeDataString(code)}";
+                var callback = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}/users/resetpassword?userId={user.Id}&resetCode={Uri.EscapeDataString(code)}";
+                
                 await emailSender.SendAsync(user.Email, "Send from animeq", callback);
-
-                return Results.Ok("go!");
+                return Results.Ok("xd");
             });
+
+            users.MapPost("/resetpassword", async (UserManager<User> userManager, ResetsPasswordRequest model, [FromQuery] string userId, [FromQuery] string resetCode) =>
+            {
+                var user = await userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return Results.NotFound("User not found.");
+                }
+                var result = await userManager.ResetPasswordAsync(user, Uri.UnescapeDataString(resetCode), model.NewPassword);
+                // Attempt to reset the password
+                if (result.Succeeded)
+                {
+                    return Results.Ok("Password has been reset successfully.");
+                }
+
+                return Results.BadRequest(result.Errors);
+            });
+
             /// <summary>
             /// get all users
             /// </summary>
