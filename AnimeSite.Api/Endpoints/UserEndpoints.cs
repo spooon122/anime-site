@@ -47,6 +47,8 @@ namespace anime_site.Endpoints
                 return Results.Ok("xd");
             });
 
+
+
             users.MapPost("/resetpassword", async (UserManager<User> userManager, ResetsPasswordRequest model, [FromQuery] string userId, [FromQuery] string resetCode) =>
             {
                 var user = await userManager.FindByIdAsync(userId);
