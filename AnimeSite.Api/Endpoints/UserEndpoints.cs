@@ -2,14 +2,11 @@
 using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.MailKit.Core;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace anime_site.Endpoints
 {
@@ -31,6 +28,7 @@ namespace anime_site.Endpoints
                 }
                 return Results.Unauthorized();
             }).RequireAuthorization();
+
             /// <summary>
             /// method for forgot password with confirmed Email
             /// </summary>
@@ -54,13 +52,13 @@ namespace anime_site.Endpoints
                 var user = await userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
-                    return Results.NotFound("User not found.");
+                    return Results.NotFound("Пользователь не найден");
                 }
                 var result = await userManager.ResetPasswordAsync(user, Uri.UnescapeDataString(resetCode), model.NewPassword);
                 
                 if (result.Succeeded)
                 {
-                    return Results.Ok("Password has been reset successfully.");
+                    return Results.Ok("Пароль успешно изменен!");
                 }
 
                 return Results.BadRequest(result.Errors);

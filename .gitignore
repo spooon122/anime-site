@@ -1,3 +1,13 @@
 .vs
 .idea
-**/obj
+obj
+AnimeSite.DataAccess/obj
+AnimeSite.DataAccess/Debug/net8.0
+AnimeSite.Core/obj
+AnimeSite.core/Debug/net8.0
+AnimeSite.Infrastructure/obj
+AnimeSite.Infrastructure/Debug/net8.0
+AnimeSite.Application/obj
+AnimeSite.Application/Debug/net8.0
+AnimeSite.Api/obj
+AnimeSite.Api/Debug/net8.0
