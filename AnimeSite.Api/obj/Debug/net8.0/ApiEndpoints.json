@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CLoginEndpoints\u003Eb__0_3",
+    "Method": "\u003CLoginEndpoints\u003Eb__0_2",
     "RelativePath": "auth/confirm",
     "HttpMethod": "GET",
     "IsController": false,
@@ -40,22 +40,6 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CLoginEndpoints\u003Eb__0_2",
-    "RelativePath": "auth/refresh",
-    "HttpMethod": "POST",
-    "IsController": false,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Void",

@@ -1,8 +1,5 @@
-﻿using AnimeSite.Application.Services;
-using AnimeSite.Core.Interfaces;
-using AnimeSite.Core.Models;
+﻿using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
-using AnimeSite.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -17,9 +14,6 @@ namespace anime_site
     {
         public static void AddApiAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 
             services.AddMailKit(optionBuilder =>
@@ -30,11 +24,11 @@ namespace anime_site
                     Server = "smtp.gmail.com",
                     Port = 587,
                     SenderName = "animeq",
-                    SenderEmail = "shok3904@gmail.com",
+                    SenderEmail = "",
 
                     // can be optional with no authentication 
-                    Account = "shok3904@gmail.com",
-                    Password = "oixnkofbasypzyji",
+                    Account = "",
+                    Password = "",
                     // enable ssl or tls
                     Security = true
                 });

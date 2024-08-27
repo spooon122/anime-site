@@ -1,6 +1,7 @@
 ﻿using anime_site.Dto;
 using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
@@ -42,7 +43,7 @@ namespace anime_site.Endpoints
                 }
 
                 var code = await userManager.GeneratePasswordResetTokenAsync(user);
-                var callback = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}/users/resetpassword?userId={user.Id}&resetCode={Uri.EscapeDataString(code)}";
+                var callback = $"{httpContext.Request.Scheme}://localhost:5173/resetpassword?userId={user.Id}&resetCode={Uri.EscapeDataString(code)}";
                 
                 await emailSender.SendAsync(user.Email, "Send from animeq", callback);
                 return Results.Ok("xd");
@@ -56,7 +57,7 @@ namespace anime_site.Endpoints
                     return Results.NotFound("User not found.");
                 }
                 var result = await userManager.ResetPasswordAsync(user, Uri.UnescapeDataString(resetCode), model.NewPassword);
-                // Attempt to reset the password
+                
                 if (result.Succeeded)
                 {
                     return Results.Ok("Password has been reset successfully.");
@@ -68,7 +69,7 @@ namespace anime_site.Endpoints
             /// <summary>
             /// get all users
             /// </summary>
-            users.MapPost("/", async (UserDbContext context) => await context.Users.ToListAsync());
+            users.MapPost("/", [Authorize] async (UserDbContext context) => await context.Users.ToListAsync());
         }
     }
 }

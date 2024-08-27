@@ -2,6 +2,7 @@ using anime_site;
 using anime_site.Endpoints;
 using AnimeSite.Core.Models;
 using AnimeSite.DataAccess;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,26 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = false,
-        ValidIssuer = "",
-        ValidAudience = "",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt"]!))
-    };
-}).AddCookie();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+    options.SlidingExpiration = true;
+});
 builder.Services.AddAuthorization();
+
 builder.Services.AddCors();
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
@@ -43,12 +35,11 @@ builder.Services.AddIdentity<User, IdentityRole>(opt =>
     opt.Password.RequireUppercase = false;
     opt.Password.RequireNonAlphanumeric = false;
     opt.Password.RequiredLength = 1;
-    opt.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
 })
                     .AddEntityFrameworkStores<UserDbContext>()
                     .AddDefaultTokenProviders();
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
-   opt.TokenLifespan = TimeSpan.FromHours(2));
+   opt.TokenLifespan = TimeSpan.FromMinutes(15));
 
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
@@ -61,6 +52,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 app.LoginEndpoints();
