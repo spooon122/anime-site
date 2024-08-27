@@ -1,12 +1,5 @@
-﻿using AnimeSite.Core.Models;
-using AnimeSite.DataAccess;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using NETCore.MailKit.Extensions;
+﻿using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
-using System.Text;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace anime_site
 {

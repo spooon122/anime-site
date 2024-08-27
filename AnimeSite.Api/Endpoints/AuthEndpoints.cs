@@ -89,7 +89,7 @@ namespace anime_site.Endpoints
             {
                 var user = await userManager.FindByIdAsync(userId);
                 await userManager.ConfirmEmailAsync(user!, code);
-                return Results.LocalRedirect("http://localhost:5173/login");
+                return Results.Redirect("http://localhost:5173/login");
             });
         }
     }

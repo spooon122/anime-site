@@ -112,15 +112,15 @@
   },
   {
     "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_0",
-    "RelativePath": "users/logout",
-    "HttpMethod": "POST",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_4",
+    "RelativePath": "users/get",
+    "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "empty",
-        "Type": "System.Object",
+        "Name": "userId",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

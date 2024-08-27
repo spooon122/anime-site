@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.MailKit.Core;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace anime_site.Endpoints
 {
@@ -19,14 +20,10 @@ namespace anime_site.Endpoints
             /// <summary>
             /// method for loguot user
             /// </summary>
-            users.MapPost("/logout", async (SignInManager<User> signInManager, [FromBody] object empty) =>
+            users.MapPost("/logout", async (SignInManager<User> signInManager) =>
             {
-                if (empty != null)
-                {
-                    await signInManager.SignOutAsync();
-                    return Results.Ok();
-                }
-                return Results.Unauthorized();
+                await signInManager.SignOutAsync();
+                return Results.Ok();
             }).RequireAuthorization();
 
             /// <summary>
@@ -46,8 +43,6 @@ namespace anime_site.Endpoints
                 await emailSender.SendAsync(user.Email, "Send from animeq", callback);
                 return Results.Ok("xd");
             });
-
-
 
             users.MapPost("/resetpassword", async (UserManager<User> userManager, ResetsPasswordRequest model, [FromQuery] string userId, [FromQuery] string resetCode) =>
             {
@@ -70,6 +65,33 @@ namespace anime_site.Endpoints
             /// get all users
             /// </summary>
             users.MapPost("/", [Authorize] async (UserDbContext context) => await context.Users.ToListAsync());
+
+            users.MapGet("get", [Authorize] async (UserManager<User> userManager, [FromQuery] string userId) =>
+            {
+                var user = await userManager.FindByIdAsync(userId);
+                var response = new
+                {
+                    userName = user!.UserName,
+                    email = user.Email,
+                    emailConfimed = user.EmailConfirmed
+                };
+                return Results.Ok(response);
+            });
+            users.MapPost("changepassword", [Authorize] async (SignInManager<User> signInManager, UserManager<User> userManager, ChangePasswordRequest model) =>
+            {
+                var user = await userManager.FindByIdAsync(model.Id);
+
+                var result = await userManager.ChangePasswordAsync(user!, model.oldPassword, model.newPassword);
+
+                if (!result.Succeeded) 
+                {
+                    return Results.BadRequest(result.Errors);
+                }
+
+                await signInManager.SignInAsync(user!, true);
+
+                return Results.Ok("Пароль успешно изменен!");
+            });
         }
     }
 }
