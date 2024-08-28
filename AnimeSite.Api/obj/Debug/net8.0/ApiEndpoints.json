@@ -1,5 +1,32 @@
 [
   {
+    "ContainingType": "anime_site.Endpoints.RoleEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRolesEndpoints\u003Eb__0_1",
+    "RelativePath": "assign-role",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userEmail",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "roleName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "anime_site.Endpoints.AuthEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CLoginEndpoints\u003Eb__0_2",
     "RelativePath": "auth/confirm",
@@ -72,6 +99,44 @@
   },
   {
     "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_6",
+    "RelativePath": "claims",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.RoleEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRolesEndpoints\u003Eb__0_0",
+    "RelativePath": "roles/create-role",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CRegisterUserEndpoints\u003Eb__0_3",
     "RelativePath": "users/",
     "HttpMethod": "POST",
@@ -84,6 +149,28 @@
         "MediaTypes": [
           "application/json"
         ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_5",
+    "RelativePath": "users/changepassword",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "anime_site.Dto.ChangePasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       }
     ]
@@ -112,18 +199,12 @@
   },
   {
     "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_4",
-    "RelativePath": "users/get",
-    "HttpMethod": "GET",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_0",
+    "RelativePath": "users/logout",
+    "HttpMethod": "POST",
     "IsController": false,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "System.Void",
@@ -152,6 +233,28 @@
       },
       {
         "Name": "resetCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_4",
+    "RelativePath": "users/updateDesc",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "descriptionUser",
         "Type": "System.String",
         "IsRequired": true
       }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NETCore.MailKit.Core;
-using Org.BouncyCastle.Asn1.X509;
+using System.Security.Claims;
 
 namespace anime_site.Endpoints
 {
@@ -64,20 +64,24 @@ namespace anime_site.Endpoints
             /// <summary>
             /// get all users
             /// </summary>
-            users.MapPost("/", [Authorize] async (UserDbContext context) => await context.Users.ToListAsync());
+            users.MapPost("/", [Authorize(Roles = "admin12345")] async (UserDbContext context) => await context.Users.ToListAsync());
 
-            users.MapGet("get", [Authorize] async (UserManager<User> userManager, [FromQuery] string userId) =>
+
+            users.MapPut("/updateDesc", async (UserManager<User> userManager, HttpContext ctx, string descriptionUser) =>
             {
-                var user = await userManager.FindByIdAsync(userId);
-                var response = new
-                {
-                    userName = user!.UserName,
-                    email = user.Email,
-                    emailConfimed = user.EmailConfirmed
-                };
-                return Results.Ok(response);
+                var claims = ctx.User.Claims;
+
+                var userIdClaim = ctx.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+                
+                var user = await userManager.FindByIdAsync(userIdClaim);
+                user.GetType().GetProperty("Description")!.SetValue(user, descriptionUser);
+
+                await userManager.UpdateAsync(user);
+                
+                return Results.Ok(user.Description);
             });
-            users.MapPost("changepassword", [Authorize] async (SignInManager<User> signInManager, UserManager<User> userManager, ChangePasswordRequest model) =>
+
+            users.MapPost("/changepassword", [Authorize] async (SignInManager<User> signInManager, UserManager<User> userManager, ChangePasswordRequest model) =>
             {
                 var user = await userManager.FindByIdAsync(model.Id);
 
@@ -91,6 +95,28 @@ namespace anime_site.Endpoints
                 await signInManager.SignInAsync(user!, true);
 
                 return Results.Ok("Пароль успешно изменен!");
+            });
+
+            app.MapGet("/claims", (HttpContext httpContext) =>
+            {
+                var user = httpContext.User;
+
+                if (user.Identity?.IsAuthenticated ?? false)
+                {
+                    
+                    var claims = user.Claims;
+                    
+                    var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                    var userName = user.FindFirst(ClaimTypes.Name)?.Value;
+
+                    return Results.Json(new
+                    {
+                        UserId = userIdClaim,
+                        username = userName
+                    });
+                }
+
+                return Results.Unauthorized();
             });
         }
     }

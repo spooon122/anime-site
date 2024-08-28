@@ -56,6 +56,7 @@ app.UseAuthorization();
 app.UseCors(builder => builder.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 app.LoginEndpoints();
 app.RegisterUserEndpoints();
+app.RolesEndpoints();
 app.UseHttpsRedirection();
 
 app.Run();

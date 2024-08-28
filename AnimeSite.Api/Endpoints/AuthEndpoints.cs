@@ -3,6 +3,7 @@ using AnimeSite.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.MailKit.Core;
+using System.Security.Claims;
 
 namespace anime_site.Endpoints
 {
@@ -34,7 +35,7 @@ namespace anime_site.Endpoints
                 {
                     return Results.BadRequest("Пользователя не существует :(");
                 }
-
+                
                 var result = await signInManager.PasswordSignInAsync(user, loginRequest.Password!, isPersistent: loginRequest.RememberMe, lockoutOnFailure: false);
                 if (!result.Succeeded)
                 {
@@ -43,7 +44,8 @@ namespace anime_site.Endpoints
 
                 var response = new
                 {
-                    userId = user.Id
+                    userId = user.Id,
+                    username = user.UserName
                 };
 
                 return Results.Ok(response);
@@ -61,6 +63,7 @@ namespace anime_site.Endpoints
                 {
                     return Results.BadRequest("Пользователь с этим Email уже существует!");
                 }
+
                 var user = new User { UserName = model.Username, Email = model.Email };
                 
                 var result = await userManager.CreateAsync(user, model.Password);
@@ -74,6 +77,7 @@ namespace anime_site.Endpoints
 
                     return Results.Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
                 }
+
                 if (!result.Succeeded)
                 {
                     return Results.BadRequest(result.Errors);
