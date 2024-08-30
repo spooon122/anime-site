@@ -99,7 +99,7 @@
   },
   {
     "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_6",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_7",
     "RelativePath": "claims",
     "HttpMethod": "GET",
     "IsController": false,
@@ -136,6 +136,33 @@
     ]
   },
   {
+    "ContainingType": "anime_site.Endpoints.RoleEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRolesEndpoints\u003Eb__0_2",
+    "RelativePath": "upload",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": true
+      },
+      {
+        "Name": "bucketName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
     "Method": "\u003CRegisterUserEndpoints\u003Eb__0_3",
     "RelativePath": "users/",
@@ -155,7 +182,7 @@
   },
   {
     "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
-    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_5",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_6",
     "RelativePath": "users/changepassword",
     "HttpMethod": "POST",
     "IsController": false,
@@ -209,6 +236,24 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "anime_site.Endpoints.UserEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CRegisterUserEndpoints\u003Eb__0_5",
+    "RelativePath": "users/profile",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "\u003C\u003Ef__AnonymousType1\u00603[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "application/json"
+        ],
         "StatusCode": 200
       }
     ]

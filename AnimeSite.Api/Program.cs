@@ -5,6 +5,7 @@ using AnimeSite.DataAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Minio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,8 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 builder.Services.AddCors();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AnimeSiteDbContext")));
+builder.Services.AddDbContext<AnimeDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AnimeDb")));
 
 var app = builder.Build();
 

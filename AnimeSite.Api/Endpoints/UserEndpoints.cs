@@ -15,7 +15,7 @@ namespace anime_site.Endpoints
     {
         public static void RegisterUserEndpoints(this WebApplication app) 
         {
-
+            
             var users = app.MapGroup("users");
             /// <summary>
             /// method for loguot user
@@ -69,8 +69,6 @@ namespace anime_site.Endpoints
 
             users.MapPut("/updateDesc", async (UserManager<User> userManager, HttpContext ctx, string descriptionUser) =>
             {
-                var claims = ctx.User.Claims;
-
                 var userIdClaim = ctx.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
                 
                 var user = await userManager.FindByIdAsync(userIdClaim);
@@ -79,6 +77,20 @@ namespace anime_site.Endpoints
                 await userManager.UpdateAsync(user);
                 
                 return Results.Ok(user.Description);
+            });
+
+            users.MapGet("/profile", async (UserManager<User> userManager, HttpContext ctx) =>
+            {
+                var userId = ctx.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+                var user = await userManager.FindByIdAsync(userId);
+
+                var response = new
+                {
+                    userName = user.UserName,
+                    email = user.Email,
+                    desc = user.Description
+                };
+                return response;
             });
 
             users.MapPost("/changepassword", [Authorize] async (SignInManager<User> signInManager, UserManager<User> userManager, ChangePasswordRequest model) =>

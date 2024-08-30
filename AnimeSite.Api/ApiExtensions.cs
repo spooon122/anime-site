@@ -1,11 +1,12 @@
-﻿using NETCore.MailKit.Extensions;
+﻿using Minio;
+using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
 
 namespace anime_site
 {
     public static class ApiExtensions
     {
-        public static void AddApiAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static async void AddApiAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
 
 
